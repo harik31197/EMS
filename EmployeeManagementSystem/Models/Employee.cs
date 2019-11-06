@@ -14,7 +14,7 @@ namespace EmployeeManagementSystem.Models
     
     public partial class Employee
     {
-        public int emp_age { get; set; }
+        public Nullable<int> emp_age { get; set; }
         public int emp_id { get; set; }
         public System.DateTime dob { get; set; }
         public string first_name { get; set; }
@@ -27,6 +27,8 @@ namespace EmployeeManagementSystem.Models
         public Nullable<System.DateTime> emp_relievingdate { get; set; }
         public string emp_dept { get; set; }
         public string emp_desig { get; set; }
+        public string username { get; set; }
+        public Nullable<bool> isEmailVerified { get; set; }
     
         public virtual UserInfo UserInfo { get; set; }
     }

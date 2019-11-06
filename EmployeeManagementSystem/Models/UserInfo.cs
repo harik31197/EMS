@@ -17,10 +17,10 @@ namespace EmployeeManagementSystem.Models
         public string username { get; set; }
         public string password { get; set; }
         public Nullable<bool> isAdmin { get; set; }
-        public Nullable<bool> isEmailVerified { get; set; }
         public string Resetcode { get; set; }
         public Nullable<int> ticket { get; set; }
-        public int emp_id { get; set; }
+        public int Employee_emp_id { get; set; }
+        public Nullable<System.Guid> Activation_code { get; set; }
     
         public virtual Employee Employee { get; set; }
     }

@@ -4,17 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="emp_id" />
           </Key>
-          <Property Name="emp_age" Type="int" Nullable="false" />
+          <Property Name="emp_age" Type="int" />
           <Property Name="emp_id" Type="int" Nullable="false" />
           <Property Name="dob" Type="date" Nullable="false" />
           <Property Name="first_name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="last_name" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="emp_address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="emp_address" Type="varchar" MaxLength="100" />
           <Property Name="emp_email" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="emp_bloodgroup" Type="varchar" MaxLength="100" />
           <Property Name="emp_mobile" Type="bigint" />
@@ -22,6 +22,8 @@
           <Property Name="emp_relievingdate" Type="date" />
           <Property Name="emp_dept" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="emp_desig" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="username" Type="varchar(max)" />
+          <Property Name="isEmailVerified" Type="bit" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -30,10 +32,10 @@
           <Property Name="username" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="isAdmin" Type="bit" />
-          <Property Name="isEmailVerified" Type="bit" />
           <Property Name="Resetcode" Type="nvarchar(max)" />
           <Property Name="ticket" Type="int" />
           <Property Name="Employee_emp_id" Type="int" Nullable="false" />
+          <Property Name="Activation_code" Type="uniqueidentifier" />
         </EntityType>
         <Association Name="UserInfo_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
@@ -55,8 +57,7 @@
             <End Role="UserInfo" EntitySet="UserInfo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -64,12 +65,12 @@
           <Key>
             <PropertyRef Name="emp_id" />
           </Key>
-          <Property Name="emp_age" Type="Int32" Nullable="false" />
+          <Property Name="emp_age" Type="Int32" />
           <Property Name="emp_id" Type="Int32" Nullable="false" />
           <Property Name="dob" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="emp_address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="emp_address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="emp_email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="emp_bloodgroup" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="emp_mobile" Type="Int64" />
@@ -78,6 +79,8 @@
           <Property Name="emp_dept" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="emp_desig" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="UserInfo" Relationship="Self.UserInfo_Employee" FromRole="Employee" ToRole="UserInfo" />
+          <Property Name="username" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isEmailVerified" Type="Boolean" />
         </EntityType>
         <EntityType Name="UserInfo">
           <Key>
@@ -86,11 +89,11 @@
           <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="isAdmin" Type="Boolean" />
-          <Property Name="isEmailVerified" Type="Boolean" />
           <Property Name="Resetcode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ticket" Type="Int32" />
           <Property Name="Employee_emp_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="Self.UserInfo_Employee" FromRole="UserInfo" ToRole="Employee" />
+          <Property Name="Activation_code" Type="Guid" />
         </EntityType>
         <Association Name="UserInfo_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
@@ -121,6 +124,8 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="EMSModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="isEmailVerified" ColumnName="isEmailVerified" />
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="emp_age" ColumnName="emp_age" />
                 <ScalarProperty Name="emp_id" ColumnName="emp_id" />
                 <ScalarProperty Name="dob" ColumnName="dob" />
@@ -140,10 +145,10 @@
           <EntitySetMapping Name="UserInfoes">
             <EntityTypeMapping TypeName="EMSModel.UserInfo">
               <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="Activation_code" ColumnName="Activation_code" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="isAdmin" ColumnName="isAdmin" />
-                <ScalarProperty Name="isEmailVerified" ColumnName="isEmailVerified" />
                 <ScalarProperty Name="Resetcode" ColumnName="Resetcode" />
                 <ScalarProperty Name="ticket" ColumnName="ticket" />
                 <ScalarProperty Name="Employee_emp_id" ColumnName="Employee_emp_id" />
