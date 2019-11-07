@@ -59,27 +59,65 @@ namespace EmployeeManagementSystem.Helper_Classes
             }
         }
 
-        public static string InsertPassword(string id,SetPassword pword)
+        public static string InsertPassword(int id,SetPassword pword)
         {
             using(EMSEntities db = new EMSEntities())
             {
-                var e = db.UserInfoes.Where(a => a.username == id).FirstOrDefault();
+                var e = db.UserInfoes.Where(a => a.Employee_emp_id == id).FirstOrDefault();
                 if (e != null)
                 {
                     if (pword.password == pword.confirmpassword)
                     {
                         e.password = PasswordCrypt.Hash(pword.password);
+                        if(id==1)
+                        {
+                            e.isAdmin = true;
+                        }
+                        else
+                        {
+                            e.isAdmin = false;
+                        }
+                        
+                        db.SaveChanges();
+                        db.UserInfoes.Add(e);
                         return "Success";
                     }
                     else
                     {
-                        return "Not Success";
+                        return "Unmatching Passwords";
                     }
                 }
                 else
                 {
                     return "Not Success";
                 }
+            }
+        }
+
+        public static string TryLogin(string username, string pword, out UserInfo user)
+        {
+            using (EMSEntities db = new EMSEntities())
+            {
+                user = db.UserInfoes.Where(a => a.username == username).FirstOrDefault();
+                string e = PasswordCrypt.Hash(pword);
+                if (user != null)
+                {
+                    if (String.Compare(user.password, PasswordCrypt.Hash(pword)) == 0)
+                    {
+                        return "Success";
+                    }
+                    else
+                    {
+                        user = null;
+                        return "Password is Wrong";
+                    }
+                }
+                else
+                {
+                    user = null;
+                    return "Invalid Credentials";
+                }
+
             }
         }
     }

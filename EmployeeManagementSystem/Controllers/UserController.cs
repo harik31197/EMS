@@ -53,8 +53,7 @@ namespace EmployeeManagementSystem.Controllers
                 {
                     return Conflict();    //Duplicate Email found
                 }
-            }
-               
+            }               
            
             catch(Exception e)
             {
@@ -63,7 +62,7 @@ namespace EmployeeManagementSystem.Controllers
             
             emp.isEmailVerified = false;
             string Activation_code = Guid.NewGuid().ToString();
-            var link = HttpContext.Current.Request.Url.AbsoluteUri + "/VerifyAccount/" + emp.username;
+            var link = HttpContext.Current.Request.Url.AbsoluteUri + "/VerifyAccount/" + emp.emp_id;
             VerificationMail.SendVerificationEmail(emp.emp_email, Activation_code,link, "VerifyAccount");
             db.Employees.Add(emp);
             db.SaveChanges();         //Employee table updated
@@ -74,9 +73,10 @@ namespace EmployeeManagementSystem.Controllers
 
         [HttpPost]
         [Route("api/signup/addemployee/VerifyAccount/{id=id}")]
-        public IHttpActionResult VerifyEmployee(string id, SetPassword password)
+        public IHttpActionResult VerifyEmployee(int id, SetPassword password)
         {
             string message = DatabaseOps.InsertPassword(id,password);
+
             if (message == "Success")
             {
                 return Ok("Verified Successfully");
