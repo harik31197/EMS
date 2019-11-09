@@ -12,6 +12,8 @@ namespace EmployeeManagementSystem.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class EMSEntities : DbContext
     {
@@ -27,5 +29,26 @@ namespace EmployeeManagementSystem.Models
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
+    
+        public virtual int AddUserInfo(Nullable<int> emp_id, string uname, string pword, Nullable<bool> isAdmin)
+        {
+            var emp_idParameter = emp_id.HasValue ?
+                new ObjectParameter("emp_id", emp_id) :
+                new ObjectParameter("emp_id", typeof(int));
+    
+            var unameParameter = uname != null ?
+                new ObjectParameter("uname", uname) :
+                new ObjectParameter("uname", typeof(string));
+    
+            var pwordParameter = pword != null ?
+                new ObjectParameter("pword", pword) :
+                new ObjectParameter("pword", typeof(string));
+    
+            var isAdminParameter = isAdmin.HasValue ?
+                new ObjectParameter("isAdmin", isAdmin) :
+                new ObjectParameter("isAdmin", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserInfo", emp_idParameter, unameParameter, pwordParameter, isAdminParameter);
+        }
     }
 }

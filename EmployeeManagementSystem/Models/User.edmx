@@ -49,6 +49,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AddUserInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="emp_id" Type="int" Mode="In" />
+          <Parameter Name="uname" Type="varchar(max)" Mode="In" />
+          <Parameter Name="pword" Type="varchar(max)" Mode="In" />
+          <Parameter Name="isAdmin" Type="bit" Mode="In" />
+        </Function>
         <EntityContainer Name="EMSModelStoreContainer">
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
@@ -114,6 +120,12 @@
             <End Role="Employee" EntitySet="Employees" />
             <End Role="UserInfo" EntitySet="UserInfoes" />
           </AssociationSet>
+          <FunctionImport Name="AddUserInfo">
+            <Parameter Name="emp_id" Mode="In" Type="Int32" />
+            <Parameter Name="uname" Mode="In" Type="String" />
+            <Parameter Name="pword" Mode="In" Type="String" />
+            <Parameter Name="isAdmin" Mode="In" Type="Boolean" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -155,6 +167,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddUserInfo" FunctionName="EMSModel.Store.AddUserInfo" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -66,7 +66,7 @@ namespace EmployeeManagementSystem.Controllers
             VerificationMail.SendVerificationEmail(emp.emp_email, Activation_code,link, "VerifyAccount");
             db.Employees.Add(emp);
             db.SaveChanges();         //Employee table updated
-            DatabaseOps.UpdateUserInfo(emp.username,emp.emp_id);    //Updating username to userinfo table
+          //  DatabaseOps.UpdateUserInfo(emp.username,emp.emp_id);    //Updating username to userinfo table
             return Ok("Employee added");
 
         }
@@ -78,7 +78,9 @@ namespace EmployeeManagementSystem.Controllers
             string message = DatabaseOps.InsertPassword(id,password);
 
             if (message == "Success")
-            {
+            {              
+                bool status = Convert.ToBoolean(DatabaseOps.AdminCheck(id));
+                StoredProcs.AddUserDetails(id, password,status);
                 return Ok("Verified Successfully");
             }
             else
@@ -87,9 +89,6 @@ namespace EmployeeManagementSystem.Controllers
             }
 
         }
-
-
-
 
 
         // PUT: api/User/5
