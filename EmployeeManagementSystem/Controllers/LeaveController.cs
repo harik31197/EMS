@@ -25,6 +25,7 @@ namespace EmployeeManagementSystem.Controllers
         public void Post([FromBody]string value)
         {
         }
+     
 
         // PUT: api/Leave/5
         public void Put(int id, [FromBody]string value)

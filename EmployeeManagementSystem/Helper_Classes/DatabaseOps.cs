@@ -45,18 +45,32 @@ namespace EmployeeManagementSystem.Helper_Classes
             }
         }
 
-        public static void UpdateUserInfo(string uname,int id)
+        public static void UpdateUserInfo(int id,SetPassword pword)
         {
             using(EMSEntities db = new EMSEntities())
             {
-                UserInfo user = new UserInfo();
-                user.username = uname;
-                user.Employee_emp_id = id;
-                user.password = PasswordCrypt.Hash("456");
-                db.UserInfoes.Add(user);
-                db.SaveChanges();
+                var e = db.Employees.Where(a => a.emp_id == id).FirstOrDefault();
+                if(e!=null)
+                {
+                    UserInfo user = new UserInfo();
+                    if (e.emp_id == 1)
+                    {
+                        user.isAdmin = true;
+                    }
+                    else
+                    {
+                        user.isAdmin = false;
+                    }
+                    //e.isEmailVerified = true;
+                    user.username = e.username;
+                    user.Employee_emp_id = id;
+                    user.password = PasswordCrypt.Hash(pword.password);
+                    db.UserInfoes.Add(user);
+                    db.SaveChanges();
+                }                
             }
         }
+        
 
         public static string InsertPassword(int id,SetPassword pword)
         {
@@ -80,35 +94,21 @@ namespace EmployeeManagementSystem.Helper_Classes
                 }
             }
         }
-        public static int AdminCheck(int id)
+        public static void ResetPasswordinDB(int id,SetPassword pword)
         {
             using(EMSEntities db = new EMSEntities())
             {
-                var user = db.UserInfoes.Where(a => a.Employee_emp_id == id).FirstOrDefault();
-                if(user!=null)
+                var e = db.UserInfoes.Where(a => a.Employee_emp_id == id).FirstOrDefault();
+                if(e!=null)
                 {
-                    if(id == 1)
-                    {
-                        user.isAdmin = true;
-                        return 1;
-                    }
-                    else 
-                    {
-                        user.isAdmin = false;
-                        return 0;
-                    }
+                    e.password = PasswordCrypt.Hash(pword.password);
+                    db.SaveChanges();
+                    
+                }              
 
-
-                }
-                else
-                {
-                    return 404;
-                }
-
-                
             }
-
         }
+  
 
         public static string TryLogin(string username, string pword, out UserInfo user)
         {

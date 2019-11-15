@@ -8,6 +8,7 @@ using EmployeeManagementSystem.Models;
 using EmployeeManagementSystem.Helper_Classes;
 using System.Security.Claims;
 using System.Web.Security;
+using System.Web;
 
 namespace EmployeeManagementSystem.Controllers
 {
@@ -48,6 +49,40 @@ namespace EmployeeManagementSystem.Controllers
                         .Where(c => c.Type == ClaimTypes.Role)
                         .Select(c => c.Value);
             return Ok("Hello" + identity.Name + "Role:" + string.Join(",",roles.ToList()));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("api/forgotpassword")]
+        public IHttpActionResult ForgotPassword(ForgotPassword fpword)
+        {
+           
+            if(DatabaseOps.IsUsernameExist(fpword.username))
+            {
+                string Activation_code = Guid.NewGuid().ToString();
+                var link = HttpContext.Current.Request.Url.AbsoluteUri + "/VerifyAccount/" + fpword.emp_id;
+                VerificationMail.SendVerificationEmail(fpword.email, Activation_code, link, "ResetPassword");
+                return Ok("Reset Mail sent");
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+        [HttpPost]
+        [Route("api/forgotpassword/reset/{id=id}")]
+        public IHttpActionResult ResetPassword(int id,SetPassword pword)
+        {
+            string message = DatabaseOps.InsertPassword(id,pword);
+            if(message == "Success")
+            {
+               DatabaseOps.ResetPasswordinDB(id, pword);
+                return Ok("Password reset Successfully");
+            }
+            else
+            {
+                return Ok("Error while resetting password");
+            }
         }
 
 

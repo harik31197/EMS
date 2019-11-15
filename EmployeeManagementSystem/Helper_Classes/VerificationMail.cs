@@ -23,13 +23,12 @@ namespace EmployeeManagementSystem.Helper_Classes
                 body = "<br/><br/>Your Employee account is successfully created. Please click on the below link to verify your account" +
             " " + " <br/><br/><a href='" + link + "</a> ";
             }
-           //else if (emailFor == "ResetPassword")
-            //{
-               // subject = "Reset Password";
-                //body = "Hi,<br/>br/>We got request for reset your account password. Your OTP is = " + verifyUrl;
-                // body = "Hi,<br/>br/>We got request for reset your account password. Please click on the below link to reset your password" +
-                // "<br/><br/><a href=" + link + ">Reset Password Link</a>";
-            //}
+           else if (emailFor == "ResetPassword")
+            {
+                subject = "Reset Password";               
+                body = "Hi,<br/>br/>We got request for reset your account password. Please click on the below link to reset your password" +
+                 "<br/><br/><a href=" + link + ">Reset Password Link</a>";
+            }
 
             var smtp = new SmtpClient
             {

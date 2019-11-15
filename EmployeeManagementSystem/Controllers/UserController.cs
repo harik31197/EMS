@@ -63,7 +63,7 @@ namespace EmployeeManagementSystem.Controllers
             emp.isEmailVerified = false;
             string Activation_code = Guid.NewGuid().ToString();
             var link = HttpContext.Current.Request.Url.AbsoluteUri + "/VerifyAccount/" + emp.emp_id;
-            VerificationMail.SendVerificationEmail(emp.emp_email, Activation_code,link, "VerifyAccount");
+            VerificationMail.SendVerificationEmail(emp.emp_email, Activation_code, link, "VerifyAccount");
             db.Employees.Add(emp);
             db.SaveChanges();         //Employee table updated
           //  DatabaseOps.UpdateUserInfo(emp.username,emp.emp_id);    //Updating username to userinfo table
@@ -78,9 +78,8 @@ namespace EmployeeManagementSystem.Controllers
             string message = DatabaseOps.InsertPassword(id,password);
 
             if (message == "Success")
-            {              
-                bool status = Convert.ToBoolean(DatabaseOps.AdminCheck(id));
-                StoredProcs.AddUserDetails(id, password,status);
+            {
+                DatabaseOps.UpdateUserInfo(id, password);              
                 return Ok("Verified Successfully");
             }
             else

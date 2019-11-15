@@ -246,6 +246,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper_Classes\DatabaseOps.cs" />
+    <Compile Include="Helper_Classes\ForgotPassword.cs" />
     <Compile Include="Helper_Classes\PasswordCrypt.cs" />
     <Compile Include="Helper_Classes\SetPassword.cs" />
     <Compile Include="Helper_Classes\StoredProcs.cs" />
