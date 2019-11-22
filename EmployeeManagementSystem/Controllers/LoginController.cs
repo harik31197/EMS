@@ -14,11 +14,7 @@ namespace EmployeeManagementSystem.Controllers
 {
     public class LoginController : ApiController
     {
-        // GET: api/Login
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        
 
         // GET: api/Login/5
        [AllowAnonymous]

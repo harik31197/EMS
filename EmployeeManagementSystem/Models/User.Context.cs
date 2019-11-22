@@ -29,6 +29,12 @@ namespace EmployeeManagementSystem.Models
     
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
+        public virtual DbSet<Attendance> Attendances { get; set; }
+        public virtual DbSet<Designation> Designations { get; set; }
+        public virtual DbSet<Employee_designation_history> Employee_designation_history { get; set; }
+        public virtual DbSet<Leave> Leaves { get; set; }
+        public virtual DbSet<Leave_history> Leave_history { get; set; }
+        public virtual DbSet<Leave_type> Leave_type { get; set; }
     
         public virtual int AddUserInfo(Nullable<int> emp_id, string uname, string pword, Nullable<bool> isAdmin)
         {
@@ -49,6 +55,19 @@ namespace EmployeeManagementSystem.Models
                 new ObjectParameter("isAdmin", typeof(bool));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserInfo", emp_idParameter, unameParameter, pwordParameter, isAdminParameter);
+        }
+    
+        public virtual int AddLeaveEntry(Nullable<System.DateTime> doj, Nullable<int> empid)
+        {
+            var dojParameter = doj.HasValue ?
+                new ObjectParameter("doj", doj) :
+                new ObjectParameter("doj", typeof(System.DateTime));
+    
+            var empidParameter = empid.HasValue ?
+                new ObjectParameter("empid", empid) :
+                new ObjectParameter("empid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddLeaveEntry", dojParameter, empidParameter);
         }
     }
 }

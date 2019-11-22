@@ -29,7 +29,7 @@ namespace EmployeeManagementSystem.Authorization
                     identity.AddClaim(new Claim("username", "admin"));                  
                     context.Validated(identity);
                 }
-                else if (user.isAdmin == null)
+                else if (user.isAdmin == false)
                 {
                     identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
                     identity.AddClaim(new Claim("username", "user"));                 

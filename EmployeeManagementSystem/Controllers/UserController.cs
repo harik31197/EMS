@@ -31,7 +31,13 @@ namespace EmployeeManagementSystem.Controllers
         {
             return "value";
         }
-
+        [HttpGet]
+        [Route("api/check")]
+        public IHttpActionResult Hello()
+        {
+            return Ok("Hello from postman!The time is " + DateTime.Now);
+        }
+      
         // POST: api/User
         [HttpPost]
         [Route("api/signup/addemployee")]
@@ -66,8 +72,9 @@ namespace EmployeeManagementSystem.Controllers
             VerificationMail.SendVerificationEmail(emp.emp_email, Activation_code, link, "VerifyAccount");
             db.Employees.Add(emp);
             db.SaveChanges();         //Employee table updated
-          //  DatabaseOps.UpdateUserInfo(emp.username,emp.emp_id);    //Updating username to userinfo table
-            return Ok("Employee added");
+           // DatabaseOps.UpdateUserInfo(emp.username,emp.emp_id);    //Updating username to userinfo table
+            StoredProcs.AddLeaveEntry(emp);  //Adding Leave data for new employee
+            return Ok("Employee added Successfully");
 
         }
 

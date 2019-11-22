@@ -14,6 +14,15 @@ namespace EmployeeManagementSystem.Models
     
     public partial class Employee
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Employee()
+        {
+            this.Attendances = new HashSet<Attendance>();
+            this.Employee_designation_history = new HashSet<Employee_designation_history>();
+            this.Leaves = new HashSet<Leave>();
+            this.Leave_history = new HashSet<Leave_history>();
+        }
+    
         public Nullable<int> emp_age { get; set; }
         public int emp_id { get; set; }
         public System.DateTime dob { get; set; }
@@ -31,5 +40,13 @@ namespace EmployeeManagementSystem.Models
         public Nullable<bool> isEmailVerified { get; set; }
     
         public virtual UserInfo UserInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Attendance> Attendances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee_designation_history> Employee_designation_history { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Leave> Leaves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Leave_history> Leave_history { get; set; }
     }
 }

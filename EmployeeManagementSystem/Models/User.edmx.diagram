@@ -4,10 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8616155ec6584478bf70ba809f3f4284" Name="Diagram1">
+      <Diagram DiagramId="d9e6157ac5d34e61ac26a6aba8e1e950" Name="Diagram1" ZoomLevel="99">
         <EntityTypeShape EntityType="EMSModel.Employee" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="EMSModel.UserInfo" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EMSModel.UserInfo" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
         <AssociationConnector Association="EMSModel.UserInfo_Employee" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EMSModel.Attendance" Width="1.5" PointX="3" PointY="6.625" />
+        <EntityTypeShape EntityType="EMSModel.Designation" Width="1.5" PointX="3.75" PointY="10.125" />
+        <EntityTypeShape EntityType="EMSModel.Employee_designation_history" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="EMSModel.Leave" Width="1.5" PointX="10.625" PointY="3.125" />
+        <EntityTypeShape EntityType="EMSModel.Leave_history" Width="1.5" PointX="7.625" PointY="3.75" />
+        <EntityTypeShape EntityType="EMSModel.Leave_type" Width="1.5" PointX="5.375" PointY="4.75" />
+        <AssociationConnector Association="EMSModel.Attendance_Employee" />
+        <AssociationConnector Association="EMSModel.Emp_dept_desig_Designation" />
+        <AssociationConnector Association="EMSModel.Emp_dept_desig_Employee" />
+        <AssociationConnector Association="EMSModel.Leave_Employee" />
+        <AssociationConnector Association="EMSModel.Leave_history_Employee" />
+        <AssociationConnector Association="EMSModel.Leave_Leave_type" ManuallyRouted="true" >
+          <ConnectorPoint PointX="6.875" PointY="6.3576871744791656" />
+          <ConnectorPoint PointX="10.625" PointY="6.3576871744791656" />
+        </AssociationConnector>
+        <AssociationConnector Association="EMSModel.Leave_history_Leave_type" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,5 +17,13 @@ namespace EmployeeManagementSystem.Helper_Classes
                 var user = db.AddUserInfo(emp.emp_id, emp.username,pword.password,isAdmin);
             }
         }
+
+        public static void AddLeaveEntry(Employee emp)
+        {
+            using (EMSEntities db = new EMSEntities())
+            {
+                var leave = db.AddLeaveEntry(emp.emp_joiningdate,emp.emp_id);
+            }
+        }
     }
 }

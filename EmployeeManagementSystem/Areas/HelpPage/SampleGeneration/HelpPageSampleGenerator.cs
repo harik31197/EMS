@@ -11,7 +11,9 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
 using System.Xml.Linq;
+using System.Xml;
 using Newtonsoft.Json;
+
 
 namespace EmployeeManagementSystem.Areas.HelpPage
 {
@@ -378,7 +380,7 @@ namespace EmployeeManagementSystem.Areas.HelpPage
             try
             {
                 object parsedJson = JsonConvert.DeserializeObject(str);
-                return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+                return JsonConvert.SerializeObject(parsedJson, Newtonsoft.Json.Formatting.Indented);
             }
             catch
             {
@@ -393,7 +395,7 @@ namespace EmployeeManagementSystem.Areas.HelpPage
             try
             {
                 XDocument xml = XDocument.Parse(str);
-                return xml.ToString();
+                return xml.ToString();                
             }
             catch
             {

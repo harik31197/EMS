@@ -11,4 +11,5 @@ namespace EmployeeManagementSystem.Helper_Classes
         public string username { get; set; }
         public string email { get; set; }
     }
+
 }
