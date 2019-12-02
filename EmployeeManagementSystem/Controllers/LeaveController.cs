@@ -12,12 +12,15 @@ namespace EmployeeManagementSystem.Controllers
 {
     public class LeaveController : ApiController
     {
+        private EMSEntities db = new EMSEntities();
         [HttpPost]
-        [Route("api/leave/{id=id}")]
+        [Route("api/leave/{id}")]
         [ResponseType(typeof(Leave))]
 
-        public IHttpActionResult PostLeave(Leave leave)
+        public IHttpActionResult PostLeave(int id,Leave leave)
         {
+            leave.Employee_emp_id = id;
+           // leave.Submited_date = DateTime.Now;
             if(!ModelState.IsValid)
             {
                 return BadRequest();
@@ -36,11 +39,11 @@ namespace EmployeeManagementSystem.Controllers
 
         [HttpGet]
         [Route("api/leave/{id}/{leaveid}")]
-
         public IHttpActionResult BalanceLeave(int id,int leaveid)
         {
             var remainingLeaves = DatabaseOps.LeaveBalance(id, leaveid);
-            return Ok("Leaves remaining " + remainingLeaves);
+            var leaveType = db.Leave_type.Where(a => a.type_id == leaveid).FirstOrDefault();
+            return Ok(remainingLeaves);
         }
 
 

@@ -26,7 +26,7 @@ namespace EmployeeManagementSystem.Authorization
                 if (user.isAdmin == true)
                 {
                     identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-                    identity.AddClaim(new Claim("username", "admin"));                  
+                    identity.AddClaim(new Claim("username", "admin"));                    
                     context.Validated(identity);
                 }
                 else if (user.isAdmin == false)

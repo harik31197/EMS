@@ -9,6 +9,7 @@ using EmployeeManagementSystem.Helper_Classes;
 using System.Security.Claims;
 using System.Web.Security;
 using System.Web;
+using System.Web.Http.Cors;
 
 namespace EmployeeManagementSystem.Controllers
 {
@@ -31,6 +32,7 @@ namespace EmployeeManagementSystem.Controllers
         public IHttpActionResult GetAuthenticate()
         {
             var identity = (ClaimsIdentity)User.Identity;
+
             return Ok("Hello User");
         }
 
@@ -47,6 +49,17 @@ namespace EmployeeManagementSystem.Controllers
             return Ok("Hello" + identity.Name + "Role:" + string.Join(",",roles.ToList()));
         }
 
+        [HttpGet]
+        [Route("api/login/getid/{uname=uname}")]
+        public IHttpActionResult GetID(string uname)
+        {
+            var empid = DatabaseOps.FindEmpId(uname);
+            if (empid == 0)
+                return Ok("Invalid Username");
+            else
+                return Ok(empid);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [Route("api/forgotpassword")]
@@ -56,7 +69,7 @@ namespace EmployeeManagementSystem.Controllers
             if(DatabaseOps.IsUsernameExist(fpword.username))
             {
                 string Activation_code = Guid.NewGuid().ToString();
-                var link = HttpContext.Current.Request.Url.AbsoluteUri + "/VerifyAccount/" + fpword.emp_id;
+                var link = "http://localhost:4200//VerifyAccount/" + fpword.emp_id;
                 VerificationMail.SendVerificationEmail(fpword.email, Activation_code, link, "ResetPassword");
                 return Ok("Reset Mail sent");
             }

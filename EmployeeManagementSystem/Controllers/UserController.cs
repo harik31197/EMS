@@ -16,14 +16,55 @@ namespace EmployeeManagementSystem.Controllers
 
         private EMSEntities db = new EMSEntities();
 
-        public IQueryable<Employee> GetEmployees()
+        [HttpGet]
+        [Route("api/getemployee/{id=id}")]
+        [ResponseType(typeof(Employee))]
+        public IHttpActionResult GetEmployee(int id)
         {
-            return db.Employees;
+            try
+            {
+                var employee = db.Employees.Find(id);
+                if(employee!=null)
+                {
+                    return Ok(employee);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch(Exception e)
+            {
+                Logfile.WriteLogFile(e);
+                return BadRequest();
+            }
         }
         // GET: api/User
-        public IEnumerable<string> Get()
+        [HttpGet]
+        [Route("api/getemployees")]
+        public IHttpActionResult GetEmployees()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var allEmployees = db.Employees.Select(a => new
+                {
+                    id = a.emp_id,
+                    Name = a.first_name + a.last_name,
+                    birthday = a.dob,
+                    doj = a.emp_joiningdate,
+                    email = a.emp_email,
+                    department = a.emp_dept,
+                    designation = a.emp_desig,
+                    bloodgroup = a.emp_bloodgroup
+                });
+
+                return Ok(allEmployees.ToList());
+            }
+            catch(Exception e)
+            {
+                Logfile.WriteLogFile(e);
+                return BadRequest();
+            }
         }
 
         // GET: api/User/5
@@ -68,7 +109,7 @@ namespace EmployeeManagementSystem.Controllers
             
             emp.isEmailVerified = false;
             string Activation_code = Guid.NewGuid().ToString();
-            var link = HttpContext.Current.Request.Url.AbsoluteUri + "/VerifyAccount/" + emp.emp_id;
+            var link = "http://localhost:4200/VerifyAccount/" + emp.emp_id;
             VerificationMail.SendVerificationEmail(emp.emp_email, Activation_code, link, "VerifyAccount");
             db.Employees.Add(emp);
             db.SaveChanges();         //Employee table updated

@@ -35,6 +35,21 @@ namespace EmployeeManagementSystem.Helper_Classes
                 return v != null;
             }
         }
+        public static int FindEmpId(string uname)
+        {
+            using (EMSEntities db = new EMSEntities())
+            {
+                var emp = db.Employees.Where(a => a.username == uname).FirstOrDefault();
+                if(emp!=null)
+                {
+                    return emp.emp_id;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
 
         public static bool IsUsernameExist(string uname)
         {
@@ -109,6 +124,7 @@ namespace EmployeeManagementSystem.Helper_Classes
 
             }
         }
+      
   
 
         public static string TryLogin(string username, string pword, out UserInfo user)
@@ -186,7 +202,7 @@ namespace EmployeeManagementSystem.Helper_Classes
             {
                 if(user.username == emp.uname)
                 {
-                    if(leave.Leave_type_type_id == emp.leavetype)
+                    if(emp.leavetype == leave.Leave_type_type_id)
                     {
                         double appliedDays = (leave.to_date.Subtract(leave.from_date)).Days;
                         if (leave.from_session == leave.to_session)

@@ -21,7 +21,7 @@ namespace EmployeeManagementSystem.Helper_Classes
             {
                 subject = "Your account is successfully created!";
                 body = "<br/><br/>Your Employee account is successfully created. Please click on the below link to verify your account" +
-            " " + " <br/><br/><a href='" + link + "</a> ";
+            " " + " <br/><br/>" + link;
             }
            else if (emailFor == "ResetPassword")
             {
