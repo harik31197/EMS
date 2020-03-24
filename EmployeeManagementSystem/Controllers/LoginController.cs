@@ -66,10 +66,10 @@ namespace EmployeeManagementSystem.Controllers
         public IHttpActionResult ForgotPassword(ForgotPassword fpword)
         {
            
-            if(DatabaseOps.IsUsernameExist(fpword.username))
+            if(DatabaseOps.IsEmpIdExist(fpword.emp_id))
             {
                 string Activation_code = Guid.NewGuid().ToString();
-                var link = "http://localhost:4200//VerifyAccount/" + fpword.emp_id;
+                var link = "http://localhost:4200/resetpassword/"+fpword.emp_id;
                 VerificationMail.SendVerificationEmail(fpword.email, Activation_code, link, "ResetPassword");
                 return Ok("Reset Mail sent");
             }

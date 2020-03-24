@@ -50,6 +50,17 @@ namespace EmployeeManagementSystem.Helper_Classes
                 }
             }
         }
+        public static string findName(int id)
+        {
+            using (EMSEntities db = new EMSEntities())
+            {
+                var z = db.Employees.Where(a => a.emp_id == id).FirstOrDefault();
+                if (z != null)
+                    return z.first_name;
+                else
+                    return "error";
+            }
+        }
 
         public static bool IsUsernameExist(string uname)
         {
@@ -58,6 +69,15 @@ namespace EmployeeManagementSystem.Helper_Classes
                 var z = db.Employees.Where(a => a.username == uname).FirstOrDefault();
                 return z != null;
             }
+        }
+        public static bool IsEmpIdExist(int id)
+        {
+            using (EMSEntities db = new EMSEntities())
+            {
+                var z = db.Employees.Where(a => a.emp_id == id).FirstOrDefault();
+                return z != null;
+            }
+
         }
       
 
@@ -155,7 +175,7 @@ namespace EmployeeManagementSystem.Helper_Classes
 
         public static double LeaveBalance(int id, int leaveid)
         {
-            double rem = 0.0;
+            double rem = 1;
             using (EMSEntities db = new EMSEntities())
             {
                 var user = db.Employees.Where(a => a.emp_id == id).FirstOrDefault();

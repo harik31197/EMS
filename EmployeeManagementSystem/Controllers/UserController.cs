@@ -15,6 +15,7 @@ namespace EmployeeManagementSystem.Controllers
     {
 
         private EMSEntities db = new EMSEntities();
+   
 
         [HttpGet]
         [Route("api/getemployee/{id=id}")]
@@ -39,6 +40,17 @@ namespace EmployeeManagementSystem.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet]
+        [Route("api/getname/{id=id}")]        
+        public IHttpActionResult GetName(int id)
+        {
+            string message = DatabaseOps.findName(id);
+            if (message == "error")
+                return Conflict();
+            else
+                return Ok(message);
+
+        }
         // GET: api/User
         [HttpGet]
         [Route("api/getemployees")]
@@ -49,7 +61,7 @@ namespace EmployeeManagementSystem.Controllers
                 var allEmployees = db.Employees.Select(a => new
                 {
                     id = a.emp_id,
-                    Name = a.first_name + a.last_name,
+                    Name = a.first_name +" "+ a.last_name,
                     birthday = a.dob,
                     doj = a.emp_joiningdate,
                     email = a.emp_email,
@@ -94,11 +106,11 @@ namespace EmployeeManagementSystem.Controllers
             {
                 if (DatabaseOps.IsUsernameExist(emp.username))
                 {
-                    return Conflict();     //Duplicate username found in DB
+                    return Conflict();   //Duplicate username found in DB
                 }
                 if (DatabaseOps.IsEmailExist(emp.emp_email))
                 {
-                    return Conflict();    //Duplicate Email found
+                    return Conflict();   //Duplicate Email found
                 }
             }               
            

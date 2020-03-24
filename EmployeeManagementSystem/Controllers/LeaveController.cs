@@ -21,10 +21,10 @@ namespace EmployeeManagementSystem.Controllers
         {
             leave.Employee_emp_id = id;
            // leave.Submited_date = DateTime.Now;
-            if(!ModelState.IsValid)
+           /* if(!ModelState.IsValid)
             {
                 return BadRequest();
-            }
+            }*/
             string message = DatabaseOps.LeaveChecker(leave);
             if(message == "Leave Successfully Applied")
             {
